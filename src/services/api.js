@@ -23,6 +23,10 @@ export const postProduct = async (productData) => {
   return await api.post("/products", productData);
 };
 
+export const getProducts = async () => {
+  return await api.get("/products");
+};
+
 export const getProductsByName = async (productName) => {
   return await api.get(`/products/?name=${productName}`);
 };

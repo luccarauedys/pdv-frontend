@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body, form, input, textarea, button {
     font-family: "Inter", sans-serif;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 400;
   }
 
@@ -53,26 +53,24 @@ export const GlobalStyle = createGlobalStyle`
     display: block;
     font-weight: 500;
     text-decoration: none;
-    color: inherit;
   }
 
   a, button, svg {
+    color: #ffffff;
+    transition: all 0.3s;
     cursor: pointer;
-    
+
     &:hover {
-      filter: brightness(120%);
+      filter: contrast(80%);
     }
   }
 
   button {
-    padding: 0.8rem;
-    font-size: 1rem;
     font-weight: 600;
-    background-color: #1363DF;
-    color: #FFF;
+    background-color: #395B64;
     
     &[disabled] {
-      opacity: 0.6;
+      background-color: #a5a5a5;
       cursor: not-allowed;
     }
   }

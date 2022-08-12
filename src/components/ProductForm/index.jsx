@@ -35,6 +35,7 @@ export function ProductForm({ handleFormSubmit }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -44,6 +45,7 @@ export function ProductForm({ handleFormSubmit }) {
     const product = { ...productData, companyId: company.id };
     try {
       await handleFormSubmit(product);
+      reset();
     } catch (error) {
       if (error.response.data) notifyError(error.response.data);
     }
