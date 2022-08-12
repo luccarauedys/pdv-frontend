@@ -1,6 +1,6 @@
+import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { Menu } from "../../components/Menu";
-import { Container } from "./styles";
 
 export function DefaultLayout() {
   return (
@@ -10,3 +10,9 @@ export function DefaultLayout() {
     </Container>
   );
 }
+
+export const Container = styled.main`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+`;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   ChartLine,
@@ -28,33 +28,38 @@ export function Menu() {
           <List size={35} weight="bold" onClick={() => setIsOpen(!isOpen)} />
         </MenuIcon>
       )}
+
       {isOpen && (
         <MenuContainer>
           <MenuHeader>
-            <h1>MENU</h1>
+            <h2>MENU</h2>
             <XCircle size={30} onClick={() => setIsOpen(false)} />
           </MenuHeader>
 
           <MenuBody>
-            <MenuItem>
+            <MenuItem onClick={() => navigate("/home")}>
               <House size={32} weight="fill" />
-              <Link to="">Início</Link>
+              <p>Início</p>
             </MenuItem>
-            <MenuItem>
+
+            <MenuItem onClick={() => navigate("/home/products")}>
               <ShoppingCart size={32} weight="fill" />
-              <Link to="">Cadastrar produtos</Link>
+              <p>Cadastrar produtos</p>
             </MenuItem>
-            <MenuItem>
+
+            <MenuItem onClick={() => navigate("/home/sales")}>
               <ShoppingBag size={32} weight="fill" />
-              <Link to="">Realizar venda</Link>
+              <p>Realizar venda</p>
             </MenuItem>
-            <MenuItem>
+
+            <MenuItem onClick={() => navigate("/home/history")}>
               <ClockCounterClockwise size={32} weight="fill" />
-              <Link to="">Histórico de vendas</Link>
+              <p>Histórico de vendas</p>
             </MenuItem>
-            <MenuItem>
+
+            <MenuItem onClick={() => navigate("/home/cashflow")}>
               <ChartLine size={32} weight="fill" />
-              <Link to="">Entradas e saídas</Link>
+              <p>Entradas e saídas</p>
             </MenuItem>
           </MenuBody>
 
@@ -75,16 +80,25 @@ const MenuIcon = styled.div`
 `;
 
 const MenuContainer = styled.div`
-  position: relative;
+  width: 400px;
+  height: 100vh;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 350px;
-  padding: 2rem;
   background-color: #06283d;
   color: #e3e3e3;
-  h1 {
-    font-weight: 700;
+
+  p {
+    font-weight: 500;
+  }
+
+  @media (max-width: 800px) {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
   }
 `;
 
@@ -102,17 +116,22 @@ const MenuBody = styled.div`
 `;
 
 const MenuItem = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
+  padding: 0.25rem;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
+
+  &:hover {
+    color: #06283d;
+    background-color: #dff6ff;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
 `;
 
 const MenuFooter = styled.div`
   position: absolute;
   bottom: 2rem;
   cursor: pointer;
-  p {
-    font-weight: 600;
-  }
 `;

@@ -41,12 +41,12 @@ export const GlobalStyle = createGlobalStyle`
 
   h1 {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
   }
 
   a {
