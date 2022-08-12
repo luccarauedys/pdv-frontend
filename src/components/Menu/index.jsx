@@ -13,7 +13,7 @@ import {
 } from "phosphor-react";
 
 export function Menu() {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -80,7 +80,7 @@ const MenuIcon = styled.div`
 `;
 
 const MenuContainer = styled.div`
-  width: 400px;
+  width: 350px;
   height: 100vh;
   padding: 2rem;
   display: flex;
@@ -121,11 +121,13 @@ const MenuItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: all 0.5s;
 
   &:hover {
     color: #06283d;
     background-color: #dff6ff;
     border-radius: 0.25rem;
+    transform: scale(110%);
     cursor: pointer;
   }
 `;

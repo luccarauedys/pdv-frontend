@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     
     &:hover {
-      opacity: 80%;
+      filter: brightness(120%);
     }
   }
 

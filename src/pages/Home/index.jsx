@@ -28,7 +28,7 @@ export function Home() {
 }
 
 const Container = styled.div`
-  width: 100%;
+  flex: 1;
   padding: 2rem;
 
   h1 {
