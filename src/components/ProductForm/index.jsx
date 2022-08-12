@@ -1,11 +1,10 @@
 import React from "react";
+import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useCompanyData } from "../../hooks/useCompanyData";
-import { ToastContainer } from "react-toastify";
-import { notifyError } from "../../utils/toasts";
 
 const schema = yup
   .object({
@@ -32,53 +31,75 @@ export function ProductForm({ handleFormSubmit }) {
   const [companyData] = useCompanyData();
   const { company } = companyData;
 
+  const params = useParams();
+  const location = useLocation();
+  const product = location.state;
+
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (productData) => {
-    const product = { ...productData, companyId: company.id };
-    try {
-      await handleFormSubmit(product);
-      reset();
-    } catch (error) {
-      if (error.response.data) notifyError(error.response.data);
+  if (product && location.pathname === `/home/products/${product.id}`) {
+    setValue("name", product.name);
+    setValue("costPrice", product.costPrice);
+    setValue("sellingPrice", product.sellingPrice);
+    setValue("quantity", product.quantity);
+  }
+
+  const onSubmit = (data) => {
+    let productData;
+
+    if (location.pathname === "/home/products") {
+      productData = { ...data, companyId: company.id };
+    } else {
+      productData = { id: Number(params.id), ...data, companyId: company.id };
     }
+
+    handleSubmitAction(productData);
+  };
+
+  const handleSubmitAction = async (productData) => {
+    await handleFormSubmit(productData);
   };
 
   return (
     <>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FormItem>
-          <input placeholder="Nome do produto" {...register("name", { required: true })} />
+          <label>Nome do produto</label>
+          <input {...register("name", { required: true })} />
           <p className="error">{errors.name?.message}</p>
         </FormItem>
 
         <FormItem>
-          <input placeholder="Preço de custo" {...register("costPrice", { required: true })} />
+          <label>Preço de custo</label>
+          <input {...register("costPrice", { required: true })} />
           <p className="error">{errors.costPrice?.message}</p>
         </FormItem>
 
         <FormItem>
-          <input placeholder="Preço de venda" {...register("sellingPrice", { required: true })} />
+          <label>Preço de venda</label>
+          <input {...register("sellingPrice", { required: true })} />
           <p className="error">{errors.sellingPrice?.message}</p>
         </FormItem>
 
         <FormItem>
-          <input placeholder="Quantidade" {...register("quantity", { required: true })} />
+          <label>Quantidade</label>
+          <input {...register("quantity", { required: true })} />
           <p className="error">{errors.quantity?.message}</p>
         </FormItem>
 
         <FormItem>
-          <button>Cadastrar</button>
+          <button>
+            {location.pathname === "/home/products" ? "Cadastrar" : "Confirmar edição"}
+          </button>
         </FormItem>
       </FormContainer>
-      <ToastContainer />
     </>
   );
 }

@@ -31,8 +31,9 @@ export const getProductsByName = async (productName) => {
   return await api.get(`/products/?name=${productName}`);
 };
 
-export const updateProduct = async (productId, dataToUpdate) => {
-  return await api.put(`/products/${productId}`, dataToUpdate);
+export const updateProduct = async (productData) => {
+  const { id } = productData;
+  return await api.put(`/products/${id.toString()}`, productData);
 };
 
 export const deleteProduct = async (productId) => {

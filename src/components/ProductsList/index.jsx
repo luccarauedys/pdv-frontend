@@ -4,14 +4,12 @@ import styled from "styled-components";
 import { PencilSimple, TrashSimple } from "phosphor-react";
 import { getProductsByName, deleteProduct } from "../../services/api";
 import { ToastContainer } from "react-toastify";
-import { notifyError } from "../../utils/toasts";
+import { notifyError, notifySuccess } from "../../utils/toasts";
 
 export function ProductsList(props) {
-  const [name, setName] = React.useState("");
-
-  const { products, setProducts, allProducts, getAllProducts } = props;
-
   const navigate = useNavigate();
+  const { products, setProducts, allProducts, getAllProducts } = props;
+  const [name, setName] = React.useState("");
 
   const BRL = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
@@ -29,13 +27,14 @@ export function ProductsList(props) {
     setProducts([...allProducts]);
   };
 
-  const handleEditProduct = (productId) => {
-    navigate(`/home/products/${productId}`);
+  const handleEditProduct = (product) => {
+    navigate(`/home/products/${product.id}`, { state: { ...product } });
   };
 
   const handleDeleteProduct = async (productId) => {
     try {
       await deleteProduct(productId);
+      notifySuccess("Produto deletado com sucesso!");
       getAllProducts();
     } catch (error) {
       return notifyError("Ops... Ocorreu um erro ao tentar deletar esse produto!");
@@ -86,15 +85,15 @@ export function ProductsList(props) {
                 <td>{BRL.format(product.costPrice)}</td>
                 <td>{BRL.format(product.sellingPrice)}</td>
                 <td>{product.quantity}</td>
-                <td>
+                <td className="icons">
                   <PencilSimple
-                    onClick={() => handleEditProduct(product.id)}
-                    size={22}
+                    onClick={() => handleEditProduct(product)}
+                    size={25}
                     color="#222222"
                   />
                   <TrashSimple
                     onClick={() => handleDeleteProduct(product.id)}
-                    size={22}
+                    size={25}
                     color="#FF1E00"
                   />
                 </td>
@@ -152,5 +151,10 @@ const TableContainer = styled.table`
   td {
     padding: 1rem;
     border-radius: 0.2rem;
+  }
+
+  td.icons {
+    display: flex;
+    gap: 0.8rem;
   }
 `;

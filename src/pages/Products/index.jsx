@@ -4,7 +4,7 @@ import { ProductForm } from "../../components/ProductForm";
 import { ProductsList } from "../../components/ProductsList";
 import { postProduct, getProducts } from "../../services/api";
 import { ToastContainer } from "react-toastify";
-import { notifyError } from "../../utils/toasts";
+import { notifyError, notifySuccess } from "../../utils/toasts";
 
 export function Products() {
   const [allProducts, setAllProducts] = React.useState([]);
@@ -21,8 +21,13 @@ export function Products() {
   };
 
   const registerProduct = async (product) => {
-    await postProduct(product);
-    getAllProducts();
+    try {
+      await postProduct(product);
+      getAllProducts();
+      return notifySuccess("Produto registrado com sucesso!");
+    } catch (error) {
+      return notifyError("Ops... Ocorreu um erro ao tentar cadastrar o produto!");
+    }
   };
 
   React.useEffect(() => {
@@ -30,17 +35,19 @@ export function Products() {
   }, []);
 
   return (
-    <Container>
-      <h1>Cadastro de Produtos</h1>
-      <ProductForm handleFormSubmit={registerProduct} />
-      <ProductsList
-        products={products}
-        setProducts={setProducts}
-        allProducts={allProducts}
-        getAllProducts={getAllProducts}
-      />
+    <>
+      <Container>
+        <h1>Cadastro de Produtos</h1>
+        <ProductForm handleFormSubmit={registerProduct} />
+        <ProductsList
+          products={products}
+          setProducts={setProducts}
+          allProducts={allProducts}
+          getAllProducts={getAllProducts}
+        />
+      </Container>
       <ToastContainer />
-    </Container>
+    </>
   );
 }
 

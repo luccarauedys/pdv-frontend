@@ -81,7 +81,7 @@ const MenuIcon = styled.div`
 
 const MenuContainer = styled.div`
   width: 350px;
-  height: 100vh;
+  min-height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;
