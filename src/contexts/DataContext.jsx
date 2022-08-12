@@ -1,4 +1,5 @@
 import React from "react";
+import { getCompanyData } from "../services/api";
 
 export const DataContext = React.createContext({});
 
