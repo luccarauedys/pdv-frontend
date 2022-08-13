@@ -130,12 +130,12 @@ const FormContainer = styled.div`
   }
 `;
 
-const TableContainer = styled.table`
+export const TableContainer = styled.table`
   width: 100%;
   text-align: left;
 
   th {
-    background-color: #333333;
+    background-color: #06283d;
     color: #ffffff;
   }
 
