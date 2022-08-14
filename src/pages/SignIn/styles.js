@@ -44,5 +44,6 @@ export const FormContainer = styled.form`
   a {
     margin: 0.25rem 0;
     align-self: center;
+    color: #222222;
   }
 `;

@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { DataProvider } from "../contexts/DataContext";
 import { DefaultLayout } from "../layouts/DefaultLayout";
 import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
@@ -14,7 +13,7 @@ import { GlobalStyle } from "../assets/globalStyle";
 
 export function App() {
   return (
-    <DataProvider>
+    <>
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
@@ -31,6 +30,6 @@ export function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </DataProvider>
+    </>
   );
 }

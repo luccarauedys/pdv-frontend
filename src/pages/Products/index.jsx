@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ProductForm } from "../../components/ProductForm";
 import { ProductsList } from "../../components/ProductsList";
-import { postProduct, getProducts } from "../../services/api";
+import { createProduct, getProducts } from "../../services/api";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toasts";
 
@@ -22,7 +22,7 @@ export function Products() {
 
   const registerProduct = async (product) => {
     try {
-      await postProduct(product);
+      await createProduct(product);
       getAllProducts();
       return notifySuccess("Produto registrado com sucesso!");
     } catch (error) {

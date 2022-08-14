@@ -1,22 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { Container, FormContainer, TableContainer } from "./styles";
 import { PencilSimple, TrashSimple } from "phosphor-react";
 import { getProductsByName, deleteProduct } from "../../services/api";
+import { BRL } from "../../utils/BRLformatter";
 import { ToastContainer } from "react-toastify";
-import { notifyError, notifySuccess } from "../../utils/toasts";
+import { notifyError, notifyInfo, notifySuccess } from "../../utils/toasts";
 
-export function ProductsList(props) {
-  const navigate = useNavigate();
-  const { products, setProducts, allProducts, getAllProducts } = props;
+export function ProductsList({ products, setProducts, allProducts, getAllProducts }) {
   const [name, setName] = React.useState("");
-
-  const BRL = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  const navigate = useNavigate();
 
   const handleFilterByName = async () => {
     try {
       const response = await getProductsByName(name);
       setProducts(response.data);
+
+      if (response.data.length === 0)
+        return notifyInfo("Não há produtos registrados com esse nome!");
     } catch (error) {
       return notifyError("Ops... Ocorreu um erro ao tentar buscar o produto!");
     }
@@ -73,7 +74,7 @@ export function ProductsList(props) {
             <th>Nome</th>
             <th>Preço de custo</th>
             <th>Preço de venda</th>
-            <th>Quantidade</th>
+            <th>Estoque</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -84,7 +85,7 @@ export function ProductsList(props) {
                 <td>{product.name}</td>
                 <td>{BRL.format(product.costPrice)}</td>
                 <td>{BRL.format(product.sellingPrice)}</td>
-                <td>{product.quantity}</td>
+                <td>{product.stock}</td>
                 <td className="icons">
                   <PencilSimple
                     onClick={() => handleEditProduct(product)}
@@ -106,55 +107,3 @@ export function ProductsList(props) {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const FormContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1rem;
-
-  input,
-  button {
-    padding: 1rem;
-  }
-
-  button {
-    &.clearFilterBtn {
-      background-color: #256d85;
-    }
-  }
-`;
-
-export const TableContainer = styled.table`
-  width: 100%;
-  text-align: left;
-
-  th {
-    background-color: #06283d;
-    color: #ffffff;
-  }
-
-  td:first-child {
-    font-weight: 600;
-  }
-
-  tr:nth-child(even) {
-    background-color: #c4c4c4;
-  }
-
-  th,
-  td {
-    padding: 1rem;
-    border-radius: 0.2rem;
-  }
-
-  td.icons {
-    display: flex;
-    gap: 0.8rem;
-  }
-`;

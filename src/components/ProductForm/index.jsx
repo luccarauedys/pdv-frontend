@@ -1,10 +1,9 @@
 import React from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCompanyData } from "../../hooks/useCompanyData";
 
 const schema = yup
   .object({
@@ -19,7 +18,7 @@ const schema = yup
       .typeError("Preço de venda deve ser um número")
       .positive("Preço de venda deve ser um número maior que 0")
       .required("Esse campo é obrigatório"),
-    quantity: yup
+    stock: yup
       .number()
       .typeError("Quantidade deve ser um número")
       .min(0, "Quantidade não pode ser um número negativo")
@@ -28,10 +27,6 @@ const schema = yup
   .required();
 
 export function ProductForm({ handleFormSubmit }) {
-  const [companyData] = useCompanyData();
-  const { company } = companyData;
-
-  const params = useParams();
   const location = useLocation();
   const product = location.state;
 
@@ -39,28 +34,23 @@ export function ProductForm({ handleFormSubmit }) {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  if (product && location.pathname === `/home/products/${product.id}`) {
+  if (product && location.pathname === `/home/products/${product?.id}`) {
     setValue("name", product.name);
     setValue("costPrice", product.costPrice);
     setValue("sellingPrice", product.sellingPrice);
-    setValue("quantity", product.quantity);
+    setValue("stock", product.stock);
   }
 
   const onSubmit = (data) => {
-    let productData;
-
-    if (location.pathname === "/home/products") {
-      productData = { ...data, companyId: company.id };
-    } else {
-      productData = { id: Number(params.id), ...data, companyId: company.id };
-    }
-
+    const productData = { ...data, id: product?.id, companyId: product?.companyId };
     handleSubmitAction(productData);
+    reset();
   };
 
   const handleSubmitAction = async (productData) => {
@@ -89,9 +79,9 @@ export function ProductForm({ handleFormSubmit }) {
         </FormItem>
 
         <FormItem>
-          <label>Quantidade</label>
-          <input {...register("quantity", { required: true })} />
-          <p className="error">{errors.quantity?.message}</p>
+          <label>Estoque</label>
+          <input {...register("stock", { required: true })} />
+          <p className="error">{errors.stock?.message}</p>
         </FormItem>
 
         <FormItem>

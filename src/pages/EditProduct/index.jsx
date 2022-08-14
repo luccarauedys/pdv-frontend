@@ -8,15 +8,17 @@ import { notifyError, notifySuccess } from "../../utils/toasts";
 export function EditProduct() {
   const navigate = useNavigate();
 
-  const handleEditProduct = async (product, reset) => {
+  const handleEditProduct = async (product) => {
     try {
       await updateProduct(product);
+
       notifySuccess("Produto editado com sucesso!");
+
       setTimeout(() => {
         navigate("/home/products");
       }, 3000);
     } catch (error) {
-      if (error.response.data) notifyError(error.response.data);
+      notifyError("Ops... Ocorreu um erro ao tentar editar o produto!");
     }
   };
 

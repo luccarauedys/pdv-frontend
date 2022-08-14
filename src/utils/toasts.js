@@ -6,3 +6,6 @@ export const notifyError = (message) =>
 
 export const notifySuccess = (message) =>
   toast.success(message, { position: "top-center", theme: "dark" });
+
+export const notifyInfo = (message) =>
+  toast.info(message, { position: "top-center", theme: "dark" });

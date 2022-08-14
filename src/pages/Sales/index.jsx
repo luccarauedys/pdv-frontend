@@ -1,75 +1,72 @@
 import React from "react";
-import styled from "styled-components";
-import { getProductsByName } from "../../services/api";
-import { TableContainer } from "../../components/ProductsList";
-import { MinusCircle, PlusCircle } from "phosphor-react";
-import { ToastContainer } from "react-toastify";
-import { notifyError, notifySuccess } from "../../utils/toasts";
 import { useNavigate } from "react-router-dom";
+import { CartContainer, Container, Footer, SearchBar, SearchBarContainer } from "./styles";
+import { MinusCircle, PlusCircle } from "phosphor-react";
+import { createSale, getProductsByName, updateProduct } from "../../services/api";
+import { TableContainer } from "../../components/ProductsList/styles";
+import { BRL } from "../../utils/BRLformatter";
+import { ToastContainer } from "react-toastify";
+import { notifyError, notifyInfo, notifySuccess } from "../../utils/toasts";
 
 export function Sales() {
   const [name, setName] = React.useState("");
   const [products, setProducts] = React.useState([]);
   const [cart, setCart] = React.useState([]);
-
   const navigate = useNavigate();
-
-  const totalPrice = cart.reduce((total, product) => {
-    return total + product.sellingPrice * product.quantity;
-  }, 0);
-
-  const BRL = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
   const handleSearchProducts = async () => {
     if (name.length === 0) return;
+
     try {
       const response = await getProductsByName(name);
       setProducts(response.data);
+
+      if (response.data.length === 0)
+        return notifyInfo("Não há produtos registrados com esse nome!");
     } catch (error) {
-      console.log(error);
+      return notifyError("Erro interno no Servidor.");
     }
   };
 
-  const handleResetName = () => {
+  const handleResetSearch = () => {
     setName("");
     setProducts([]);
   };
 
+  const handleCancelSale = () => {
+    setCart([]);
+    notifyInfo("Venda cancelada!");
+  };
+
+  const handleResetAll = () => {
+    setName("");
+    setProducts([]);
+    setCart([]);
+  };
+
   const handleAddToCart = (product) => {
-    const { id: productId, companyId, name, quantity: stock, costPrice, sellingPrice } = product;
-
-    const addedProduct = {
-      productId,
-      companyId,
-      name,
-      stock,
-      costPrice,
-      sellingPrice,
-      quantity: 1,
-    };
-
-    handleIncreaseQuantity(addedProduct);
+    handleIncreaseQuantity(product);
   };
 
   const handleIncreaseQuantity = (product) => {
-    const isInCart = cart.find((p) => p.productId === product.productId);
+    const isInCart = cart.find((prod) => prod.id === product.id);
 
     if (!isInCart) {
-      setCart([...cart, product]);
-      return;
+      const addedProduct = { ...product, quantity: 1 };
+      return setCart([...cart, addedProduct]);
     }
 
-    if (isInCart && isInCart.quantity < isInCart.stock) {
+    if (isInCart && isInCart.stock > isInCart.quantity) {
       const { quantity } = isInCart;
-      const product = { ...isInCart, quantity: quantity + 1 };
 
-      const productsInCart = cart.map((p) => {
-        if (p.productId === isInCart.productId) return product;
-        return p;
+      const editedProduct = { ...product, quantity: quantity + 1 };
+
+      const updatedCart = cart.map((prod) => {
+        if (prod.id === editedProduct.id) return editedProduct;
+        return prod;
       });
 
-      setCart([...productsInCart]);
-      return;
+      return setCart(updatedCart);
     }
 
     if (isInCart && isInCart.quantity >= isInCart.stock) {
@@ -78,40 +75,65 @@ export function Sales() {
   };
 
   const handleDecreaseQuantity = (product) => {
-    const isInCart = cart.find((p) => p.productId === product.productId);
-    console.log(isInCart);
+    const isInCart = cart.find((prod) => prod.id === product.id);
 
     if (!isInCart) return;
 
-    if (isInCart && isInCart.quantity <= 0) {
-      const productsInCart = cart.filter((p) => p.productId !== isInCart.productId);
-      setCart([...productsInCart]);
-      return;
+    if (isInCart && isInCart.quantity === 0) {
+      const updatedCart = cart.filter((prod) => prod.id !== isInCart.id);
+      return setCart(updatedCart);
     }
 
     if (isInCart && isInCart.quantity > 0) {
       const { quantity } = isInCart;
-      const product = { ...isInCart, quantity: quantity - 1 };
 
-      const productsInCart = cart.map((p) => {
-        if (p.productId === isInCart.productId) return product;
-        return p;
-      });
+      const editedProduct = { ...product, quantity: quantity - 1 };
 
-      setCart([...productsInCart]);
+      const updatedCart = cart
+        .map((prod) => {
+          if (prod.id === editedProduct.id) return editedProduct;
+          return prod;
+        })
+        .filter((prod) => prod.quantity > 0);
+
+      setCart(updatedCart);
     }
   };
 
-  const handleClearCart = () => {
-    setCart([]);
+  const handleConfirmSale = async () => {
+    const updatedProducts = cart.map((product) => {
+      const { stock, quantity } = product;
+      return { ...product, stock: stock - quantity };
+    });
+
+    const saleData = {
+      companyId: updatedProducts[0].companyId,
+      products: JSON.stringify(updatedProducts),
+      totalPrice: calcTotalPrice(),
+    };
+
+    try {
+      await createSale(saleData);
+
+      for (let product of updatedProducts) {
+        await updateProduct(product);
+      }
+
+      handleResetAll();
+      notifySuccess("Venda realizada com sucesso!");
+
+      setTimeout(() => {
+        navigate("/home/history");
+      }, 3000);
+    } catch (error) {
+      notifyError("Ops... Ocorreu um erro. Venda não realizada!");
+    }
   };
 
-  const handleConfirmSale = () => {
-    // TODO: chamada pra api
-    notifySuccess("Venda realizada com sucesso!");
-    setTimeout(() => {
-      navigate("/home/history");
-    }, 3000);
+  const calcTotalPrice = () => {
+    return cart.reduce((total, product) => {
+      return total + product.sellingPrice * product.quantity;
+    }, 0);
   };
 
   return (
@@ -126,9 +148,12 @@ export function Sales() {
             placeholder="Nome do produto"
             value={name}
             onChange={({ target }) => setName(target.value)}
+            onKeyUp={(e) => {
+              if (e.code === "Enter") handleSearchProducts();
+            }}
           />
           <button onClick={handleSearchProducts}>Pesquisar</button>
-          <button onClick={handleResetName}>Limpar</button>
+          <button onClick={handleResetSearch}>Limpar</button>
         </SearchBar>
       </SearchBarContainer>
 
@@ -147,7 +172,7 @@ export function Sales() {
               <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{BRL.format(product.sellingPrice)}</td>
-                <td>{product.quantity}</td>
+                <td>{product.stock}</td>
                 <td>
                   <button onClick={() => handleAddToCart(product)}>Adicionar</button>
                 </td>
@@ -160,7 +185,6 @@ export function Sales() {
       {cart.length > 0 && (
         <CartContainer>
           <h2>Adicionados ao carrinho</h2>
-
           <div>
             {cart.map((product) => {
               if (product.quantity > 0) {
@@ -191,15 +215,14 @@ export function Sales() {
               }
             })}
           </div>
-
           <Footer>
             <div className="price">
               <h3>
-                TOTAL: <span>{BRL.format(totalPrice)}</span>
+                TOTAL: <span>{BRL.format(calcTotalPrice())}</span>
               </h3>
             </div>
             <div className="actions">
-              <button onClick={handleClearCart}>Cancelar</button>
+              <button onClick={handleCancelSale}>Cancelar</button>
               <button onClick={handleConfirmSale}>Confirmar venda</button>
             </div>
           </Footer>
@@ -209,118 +232,3 @@ export function Sales() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  flex: 1;
-  padding: 2rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  h1 {
-    margin-bottom: 1rem;
-  }
-
-  tbody {
-    td:last-child {
-      text-align: center;
-    }
-    button {
-      padding: 0.5rem;
-      width: 40%;
-      background-color: #06283d;
-    }
-  }
-`;
-
-const SearchBarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const SearchBar = styled.div`
-  display: grid;
-  grid-template-columns: minmax(400px, 1fr) repeat(2, minmax(100px, 400px));
-  gap: 0.5rem;
-
-  button {
-    &:last-child {
-      /* background-color: #333; */
-    }
-  }
-
-  input,
-  button {
-    padding: 1rem;
-  }
-
-  @media (max-width: 750px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const CartContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .product {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    background-color: #c6c6c6;
-    border-radius: 0.3rem;
-    margin-bottom: 1rem;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  svg {
-    color: #06283d;
-  }
-`;
-
-const Footer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  button {
-    width: 100%;
-    padding: 1rem;
-
-    &:first-child {
-      background-color: red;
-    }
-
-    &:last-child {
-      background-color: green;
-    }
-  }
-
-  div.price {
-    span {
-      color: #06283d;
-    }
-  }
-
-  div.actions {
-    width: 100%;
-    max-width: 750px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.25rem;
-
-    @media (max-width: 750px) {
-      grid-template-columns: 1fr;
-
-      button {
-        max-width: 100%;
-      }
-    }
-  }
-`;
