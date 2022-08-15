@@ -8,6 +8,9 @@ import { EditProduct } from "../pages/EditProduct";
 import { Sales } from "../pages/Sales";
 import { History } from "../pages/History";
 import { Cashflow } from "../pages/Cashflow";
+import { Inflows } from "../pages/Inflows";
+import { Outflows } from "../pages/Outflows";
+import { Summary } from "../pages/Summary";
 import { NotFound } from "../pages/NotFound";
 import { GlobalStyle } from "../assets/globalStyle";
 
@@ -26,6 +29,9 @@ export function App() {
             <Route path="sales" element={<Sales />} />
             <Route path="history" element={<History />} />
             <Route path="cashflow" element={<Cashflow />} />
+            <Route path="inflows" element={<Inflows />} />
+            <Route path="outflows" element={<Outflows />} />
+            <Route path="summary" element={<Summary />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

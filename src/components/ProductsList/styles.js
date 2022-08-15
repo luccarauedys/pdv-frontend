@@ -37,7 +37,7 @@ export const TableContainer = styled.table`
   }
 
   tr:nth-child(even) {
-    background-color: #c4c4c4;
+    background-color: #d6d6d6;
   }
 
   th,

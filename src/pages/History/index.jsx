@@ -46,17 +46,17 @@ export function History() {
 
   return (
     <Container>
-      <header>
+      <HeaderContainer>
         <h1>Histórico de vendas</h1>
 
         <div>
           <h3>Vendas realizadas: {history.length}</h3>
           <h3>Total: {BRL.format(calcTotalPriceOfAllSales())}</h3>
         </div>
-      </header>
+      </HeaderContainer>
 
       <CardsContainer>
-        {history.map((sale) => {
+        {history.reverse().map((sale) => {
           return <SaleCard key={sale.id} sale={sale} handleDeleteSale={handleDeleteSale} />;
         })}
       </CardsContainer>
@@ -77,16 +77,34 @@ const Container = styled.div`
   h1 {
     margin-bottom: 1rem;
   }
+`;
 
-  header {
-    div {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+export const HeaderContainer = styled.header`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 
-      h3 {
-        font-weight: 500;
-      }
+  h1 {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  div {
+    flex: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+
+    h3 {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: #188348;
+      color: #ffffff;
     }
   }
 `;
