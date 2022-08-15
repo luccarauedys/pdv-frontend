@@ -56,6 +56,7 @@ export function SignUp() {
         width={"100px"}
       />
       <h1>Gerencie agora suas vendas!</h1>
+
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <label>
           Nome da empresa:

@@ -49,6 +49,7 @@ export function SignIn() {
         width={"100px"}
       />
       <h1>Gerencie agora suas vendas!</h1>
+
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <label>
           Email de acesso:
