@@ -24,7 +24,7 @@ export function Menu() {
   return (
     <>
       {!isOpen && (
-        <MenuIcon>
+        <MenuIcon className="menu-icon">
           <List size={35} weight="bold" onClick={() => setIsOpen(!isOpen)} />
         </MenuIcon>
       )}
