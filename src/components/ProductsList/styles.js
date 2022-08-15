@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -24,11 +25,12 @@ export const FormContainer = styled.div`
 `;
 
 export const TableContainer = styled.table`
+  margin-top: 1rem;
   width: 100%;
   text-align: left;
 
   th {
-    background-color: #06283d;
+    background-color: #222222;
     color: #ffffff;
   }
 

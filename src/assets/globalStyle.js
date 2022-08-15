@@ -67,11 +67,23 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     font-weight: 600;
-    background-color: #395B64;
+    background-color: #2127c6;
     
     &[disabled] {
       background-color: #a5a5a5;
       cursor: not-allowed;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+    }
+    body, form, input, textarea, button {
+      font-size: 1rem;
     }
   }
 `;

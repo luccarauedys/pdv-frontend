@@ -1,19 +1,26 @@
 import styled from "styled-components";
 
+const bgColor = "#222";
+const textColor = "#FFF";
+const bgColorHover = "#2127c6";
+
+export const Container = styled.div``;
+
 export const MenuIcon = styled.div`
+  min-height: 100vh;
   padding: 1rem;
-  background-color: #06283d;
-  color: #e3e3e3;
+  background-color: ${bgColor};
+  color: ${textColor};
 `;
 
 export const MenuContainer = styled.div`
-  width: 350px;
   min-height: 100vh;
-  padding: 2rem;
+  width: 400px;
   display: flex;
   flex-direction: column;
-  background-color: #06283d;
-  color: #e3e3e3;
+  padding: 2rem;
+  background-color: ${bgColor};
+  color: ${textColor};
 
   p {
     font-weight: 500;
@@ -21,7 +28,7 @@ export const MenuContainer = styled.div`
 
   @media (max-width: 800px) {
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     left: 0;
@@ -33,34 +40,45 @@ export const MenuHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const MenuBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid ${textColor};
+  padding-top: 1.5rem;
   font-size: 1.2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e3e3e350;
 `;
 
 export const MenuItem = styled.div`
-  margin-bottom: 0.8rem;
-  padding: 0.25rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.5s;
+  padding: 0.8rem 0;
+  transition: all 0.3s;
 
   &:hover {
-    color: #06283d;
-    background-color: #dff6ff;
-    border-radius: 0.25rem;
-    transform: scale(110%);
+    transform: scale(105%);
+    background-color: ${bgColorHover};
+    border-radius: 0.5rem;
+    padding-left: 0.5rem;
     cursor: pointer;
   }
 `;
 
 export const MenuFooter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
   position: absolute;
   bottom: 2rem;
   cursor: pointer;
+
+  p {
+    font-weight: 600;
+  }
 `;

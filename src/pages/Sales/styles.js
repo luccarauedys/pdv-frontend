@@ -19,7 +19,7 @@ export const Container = styled.div`
     button {
       padding: 0.5rem;
       width: 40%;
-      background-color: #06283d;
+      background-color: #222;
     }
   }
 `;
@@ -35,12 +35,6 @@ export const SearchBar = styled.div`
   grid-template-columns: minmax(400px, 1fr) repeat(2, minmax(100px, 400px));
   gap: 0.5rem;
 
-  button {
-    &:last-child {
-      /* background-color: #333; */
-    }
-  }
-
   input,
   button {
     padding: 1rem;
@@ -52,6 +46,7 @@ export const SearchBar = styled.div`
 `;
 
 export const CartContainer = styled.div`
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -61,7 +56,8 @@ export const CartContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    background-color: #c6c6c6;
+    background-color: #d6d6d6;
+    color: #222;
     border-radius: 0.3rem;
     margin-bottom: 1rem;
     &:last-child {
@@ -70,7 +66,7 @@ export const CartContainer = styled.div`
   }
 
   svg {
-    color: #06283d;
+    color: #222;
   }
 `;
 
@@ -84,17 +80,17 @@ export const Footer = styled.div`
     padding: 1rem;
 
     &:first-child {
-      background-color: red;
+      background-color: #f24636;
     }
 
     &:last-child {
-      background-color: green;
+      background-color: #7cb342;
     }
   }
 
   div.price {
     span {
-      color: #06283d;
+      color: #222;
     }
   }
 

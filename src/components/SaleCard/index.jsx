@@ -5,12 +5,12 @@ import { formatDate } from "../../utils/dateFormatter";
 export function SaleCard({ sale, handleDeleteSale }) {
   return (
     <Container>
-      <h3>Venda realizada em: {formatDate(sale.date)}</h3>
+      <h3>Venda realizada em {formatDate(sale.date)}</h3>
 
       {sale.products.map((product) => {
         return (
           <div className="product-card">
-            <h4>{product.name}</h4>
+            <h4>⚫️ {product.name}</h4>
             <p>
               <strong>Quantidade:</strong> {product.quantity}
             </p>
@@ -38,16 +38,16 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-
   padding: 3rem;
   border-radius: 0.5rem;
-  background-color: #cfcfcf;
+  background-color: #222;
+  color: #e3e3e3;
 
   h3 {
     font-size: 1.3rem;
   }
   h4 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 
   .product-card {
@@ -61,7 +61,7 @@ const Container = styled.div`
 
     strong {
       font-weight: 500;
-      color: #2a2a2ad6;
+      color: #adbedd;
     }
   }
 
@@ -72,7 +72,6 @@ const Container = styled.div`
 
     button {
       width: 100%;
-      max-width: 350px;
       padding: 0.8rem;
     }
   }

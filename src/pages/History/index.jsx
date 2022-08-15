@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { Container, HeaderContainer, CardsContainer } from "./styles";
 import { deleteSale, getSales } from "../../services/api";
 import { BRL } from "../../utils/BRLformatter";
 import { ToastContainer } from "react-toastify";
@@ -50,8 +50,8 @@ export function History() {
         <h1>Histórico de vendas</h1>
 
         <div>
-          <h3>Vendas realizadas: {history.length}</h3>
-          <h3>Total: {BRL.format(calcTotalPriceOfAllSales())}</h3>
+          <p>Vendas realizadas: {history.length}</p>
+          <p>Total: {BRL.format(calcTotalPriceOfAllSales())}</p>
         </div>
       </HeaderContainer>
 
@@ -65,52 +65,3 @@ export function History() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  flex: 1;
-  padding: 2rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  h1 {
-    margin-bottom: 1rem;
-  }
-`;
-
-export const HeaderContainer = styled.header`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-
-  h1 {
-    flex: 1;
-    min-width: 300px;
-  }
-
-  div {
-    flex: 1;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.5rem;
-
-    h3 {
-      flex: 1;
-      text-align: center;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      background-color: #188348;
-      color: #ffffff;
-    }
-  }
-`;
-
-const CardsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1rem;
-`;

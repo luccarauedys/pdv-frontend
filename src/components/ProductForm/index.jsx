@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import styled from "styled-components";
+import { FormContainer, FormItem } from "./styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -58,59 +58,34 @@ export function ProductForm({ handleFormSubmit }) {
   };
 
   return (
-    <>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
-        <FormItem>
-          <label>Nome do produto</label>
-          <input {...register("name", { required: true })} />
-          <p className="error">{errors.name?.message}</p>
-        </FormItem>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormItem>
+        <label>Nome do produto</label>
+        <input {...register("name", { required: true })} />
+        <p className="error">{errors.name?.message}</p>
+      </FormItem>
 
-        <FormItem>
-          <label>Preço de custo</label>
-          <input {...register("costPrice", { required: true })} />
-          <p className="error">{errors.costPrice?.message}</p>
-        </FormItem>
+      <FormItem>
+        <label>Preço de custo</label>
+        <input {...register("costPrice", { required: true })} />
+        <p className="error">{errors.costPrice?.message}</p>
+      </FormItem>
 
-        <FormItem>
-          <label>Preço de venda</label>
-          <input {...register("sellingPrice", { required: true })} />
-          <p className="error">{errors.sellingPrice?.message}</p>
-        </FormItem>
+      <FormItem>
+        <label>Preço de venda</label>
+        <input {...register("sellingPrice", { required: true })} />
+        <p className="error">{errors.sellingPrice?.message}</p>
+      </FormItem>
 
-        <FormItem>
-          <label>Estoque</label>
-          <input {...register("stock", { required: true })} />
-          <p className="error">{errors.stock?.message}</p>
-        </FormItem>
+      <FormItem>
+        <label>Estoque</label>
+        <input {...register("stock", { required: true })} />
+        <p className="error">{errors.stock?.message}</p>
+      </FormItem>
 
-        <FormItem>
-          <button>
-            {location.pathname === "/home/products" ? "Cadastrar" : "Confirmar edição"}
-          </button>
-        </FormItem>
-      </FormContainer>
-    </>
+      <FormItem>
+        <button>{location.pathname === "/home/products" ? "Cadastrar" : "Confirmar edição"}</button>
+      </FormItem>
+    </FormContainer>
   );
 }
-
-const FormContainer = styled.form`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1rem;
-`;
-
-const FormItem = styled.div`
-  button,
-  input {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-  }
-
-  p.error {
-    margin-top: 5px;
-    font-weight: 500;
-    color: #ff1e00;
-  }
-`;

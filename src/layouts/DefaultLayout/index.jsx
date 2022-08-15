@@ -5,9 +5,7 @@ import { Menu } from "../../components/Menu";
 export function DefaultLayout() {
   return (
     <Container>
-      <div className="menu">
-        <Menu />
-      </div>
+      <Menu />
       <div className="outlet">
         <Outlet />
       </div>
@@ -19,14 +17,6 @@ export const Container = styled.main`
   width: 100%;
   min-height: 100vh;
   display: flex;
-
-  div.menu-icon {
-    min-height: 100vh;
-
-    div {
-      height: 100%;
-    }
-  }
 
   div.outlet {
     flex: 1;

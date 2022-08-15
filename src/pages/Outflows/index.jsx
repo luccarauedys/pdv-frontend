@@ -5,8 +5,8 @@ import { BRL } from "../../utils/BRLformatter";
 import { formatDate } from "../../utils/dateFormatter";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toasts";
-import { HeaderContainer } from "../History";
-import { DatePickerContainer } from "../Inflows";
+import { HeaderContainer } from "../History/styles";
+import { DatePickerContainer } from "../Inflows/styles";
 import { TableContainer } from "../../components/ProductsList/styles";
 import { TrashSimple } from "phosphor-react";
 import DatePicker from "react-datepicker";
@@ -88,14 +88,14 @@ export function Outflows() {
 
   return (
     <Container>
-      <HeaderContainer2>
-        <h1>Saídas</h1>
+      <Header>
+        <h1>🔴 Saídas</h1>
 
         <div>
-          <h3>Saídas: {expenses.length}</h3>
-          <h3>Total: {BRL.format(expenses.reduce((acc, expense) => acc + expense.value, 0))}</h3>
+          <p>Saídas: {expenses.length}</p>
+          <p>Total: {BRL.format(expenses.reduce((acc, expense) => acc + expense.value, 0))}</p>
         </div>
-      </HeaderContainer2>
+      </Header>
 
       <div>
         <h2>Cadastro de saídas</h2>
@@ -172,7 +172,7 @@ export function Outflows() {
         </div>
       </DatePickerContainer>
 
-      <Table>
+      <TableContainer>
         <thead>
           <tr>
             <th>Descrição da saída</th>
@@ -197,7 +197,7 @@ export function Outflows() {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </TableContainer>
 
       <ToastContainer />
     </Container>
@@ -217,10 +217,31 @@ const Container = styled.div`
   }
 `;
 
-const HeaderContainer2 = styled(HeaderContainer)`
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  h1 {
+    min-width: 300px;
+  }
+
   div {
-    h3 {
-      background-color: #ab1b1e;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    p {
+      width: 300px;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+      border-radius: 0.2rem;
+      background-color: #f24636;
+      color: #fff;
     }
   }
 `;
@@ -232,7 +253,6 @@ const ExpenseCreationContainer = styled.form`
 
   input,
   button {
-    height: 40px;
     padding: 0.8rem;
     border-radius: 0.2rem;
     margin-top: 0.5rem;
@@ -245,12 +265,5 @@ const ExpenseCreationContainer = styled.form`
       flex: 1;
       align-self: flex-end;
     }
-  }
-`;
-
-const Table = styled(TableContainer)`
-  th {
-    background-color: #ab1b1e;
-    color: #ffffff;
   }
 `;

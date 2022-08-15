@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { Container, Button } from "./styles";
 import { getExpenses, getSales } from "../../services/api";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
@@ -21,8 +21,8 @@ export function Cashflow() {
       {
         label: "Quantidade em reais",
         data: [chartData.inflowsTotal, chartData.outflowsTotal],
-        backgroundColor: ["#15944e", "#ab1b1e"],
-        borderColor: ["#15944e", "#ab1b1e"],
+        backgroundColor: ["#6fa13a", "#f24636"],
+        borderColor: ["#6fa13a", "#f24636"],
         borderWidth: 1,
       },
     ],
@@ -50,10 +50,10 @@ export function Cashflow() {
       <h1>Entradas e saídas</h1>
 
       <div className="buttons">
-        <Button bgColor="#15944e" onClick={() => navigate("/home/inflows")}>
+        <Button bgColor="#6fa13a" onClick={() => navigate("/home/inflows")}>
           Ver entradas
         </Button>
-        <Button bgColor="#ab1b1e" onClick={() => navigate("/home/outflows")}>
+        <Button bgColor="#f24636" onClick={() => navigate("/home/outflows")}>
           Ver saídas
         </Button>
       </div>
@@ -62,11 +62,11 @@ export function Cashflow() {
         <div className="text">
           <h2>Resumo</h2>
           <p>
-            <strong>Total de entradas em reais: </strong>
+            <strong>🟢 Total de entradas em reais: </strong>
             {BRL.format(chartData.inflowsTotal)}
           </p>
           <p>
-            <strong>Total de saídas em reais:</strong> {BRL.format(chartData.outflowsTotal)}
+            <strong>🔴 Total de saídas em reais:</strong> {BRL.format(chartData.outflowsTotal)}
           </p>
         </div>
 
@@ -77,43 +77,3 @@ export function Cashflow() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  flex: 1;
-  padding: 2rem;
-
-  h1 {
-    margin-bottom: 1rem;
-  }
-
-  div.buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-
-  div.text {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  div.chart {
-    max-width: 600px;
-    margin: 2rem auto 0;
-  }
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 1rem;
-  border-radius: 2rem;
-  background-color: ${(props) => props.bgColor};
-  color: #ffffff;
-  font-weight: 500;
-
-  &:hover {
-    filter: brightness(80%);
-  }
-`;
