@@ -1,33 +1,45 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin-top: 1rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  .table {
+    width: 100%;
+    overflow-x: auto !important;
+  }
+
+  .search-products-form {
+    width: 100%;
+  }
+
+  @media (max-width: 500px) {
+    width: 300px;
+  }
 `;
 
 export const FormContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 
-  input,
-  button {
-    padding: 1rem;
+  button.clearFilterBtn {
+    filter: saturate(40%);
   }
 
-  button {
-    &.clearFilterBtn {
-      background-color: #256d85;
-    }
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 `;
 
 export const TableContainer = styled.table`
-  margin-top: 1rem;
   width: 100%;
   text-align: left;
+  margin-top: 0.5rem;
 
   th {
     background-color: #222222;
@@ -44,7 +56,7 @@ export const TableContainer = styled.table`
 
   th,
   td {
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 0.2rem;
   }
 

@@ -6,7 +6,7 @@ import { formatDate } from "../../utils/dateFormatter";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toasts";
 import { Loading } from "../../components/Loading";
-import { DatePickerContainer } from "../Inflows/styles";
+import { Container, DatePickerContainer } from "../Inflows/styles";
 import { TableContainer } from "../../components/ProductsList/styles";
 import { TrashSimple } from "phosphor-react";
 import DatePicker from "react-datepicker";
@@ -216,52 +216,41 @@ export function Outflows() {
   );
 }
 
-const Container = styled.div`
-  flex: 1;
-  padding: 2rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  h1 {
-    margin-bottom: 1rem;
-  }
-`;
-
 const Header = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  h1 {
-    min-width: 300px;
-  }
 
   div {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
 
     p {
-      width: 300px;
-      padding: 0.5rem;
-      font-size: 1.2rem;
-      font-weight: 600;
+      color: #fff;
       text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
       border-radius: 0.2rem;
       background-color: #f24636;
       color: #fff;
+
+      @media (max-width: 800px) {
+        font-size: 1rem;
+      }
     }
   }
 `;
 
 const ExpenseCreationContainer = styled.form`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+  }
 
   input,
   button {

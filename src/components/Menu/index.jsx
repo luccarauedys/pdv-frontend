@@ -1,14 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Container,
-  MenuBody,
-  MenuContainer,
-  MenuFooter,
-  MenuHeader,
-  MenuIcon,
-  MenuItem,
-} from "./styles";
+import { MenuBody, MenuContainer, MenuFooter, MenuHeader, MenuIcon, MenuItem } from "./styles";
 import {
   ChartLine,
   ClockCounterClockwise,
@@ -30,7 +22,7 @@ export function Menu() {
   };
 
   return (
-    <Container>
+    <>
       {!isOpen && (
         <MenuIcon className="menu-icon">
           <List size={35} weight="bold" onClick={() => setIsOpen(!isOpen)} />
@@ -77,6 +69,6 @@ export function Menu() {
           </MenuFooter>
         </MenuContainer>
       )}
-    </Container>
+    </>
   );
 }

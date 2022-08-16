@@ -11,36 +11,41 @@ export const Container = styled.div`
   h1 {
     margin-bottom: 1rem;
   }
+
+  @media (max-width: 500px) {
+    padding: 0;
+
+    h1 {
+      margin-top: 2rem;
+    }
+
+    p {
+      font-size: 1rem !important;
+    }
+  }
 `;
 
 export const HeaderContainer = styled.header`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 
-  h1 {
-    flex: 1;
-    min-width: 300px;
-  }
-
   div {
-    flex: 1;
-
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 0.5rem;
 
     p {
-      flex: 1;
       font-size: 1.2rem;
       font-weight: 600;
       text-align: center;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      background-color: #2127c6;
+      padding: 0.5rem 1rem;
+      border-radius: 0.2rem;
       color: #e3e3e3;
+      background-color: #06093d;
     }
   }
 `;

@@ -44,65 +44,65 @@ export function ProductsList({ products, setProducts, allProducts, getAllProduct
 
   return (
     <Container>
-      <h1>Listagem de produtos</h1>
+      <div className="search-products-form">
+        <h1>Listagem de produtos</h1>
+        <FormContainer>
+          <input
+            type="text"
+            placeholder="Nome do produto"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.code === "Enter") handleFilterByName();
+            }}
+          />
 
-      <FormContainer>
-        <input
-          type="text"
-          placeholder="Nome do produto"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onKeyUp={(e) => {
-            if (e.code === "Enter") handleFilterByName();
-          }}
-        />
+          <button onClick={handleFilterByName}>Pesquisar</button>
 
-        <button type="button" onClick={handleFilterByName}>
-          Pesquisar
-        </button>
-
-        {name && (
           <button onClick={handleClearFilter} className="clearFilterBtn">
             Limpar filtro
           </button>
-        )}
-      </FormContainer>
+        </FormContainer>
+      </div>
 
-      <TableContainer>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Preço de custo</th>
-            <th>Preço de venda</th>
-            <th>Estoque</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => {
-            return (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{BRL.format(product.costPrice)}</td>
-                <td>{BRL.format(product.sellingPrice)}</td>
-                <td>{product.stock}</td>
-                <td className="icons">
-                  <PencilSimple
-                    onClick={() => handleEditProduct(product)}
-                    size={25}
-                    color="#222222"
-                  />
-                  <TrashSimple
-                    onClick={() => handleDeleteProduct(product.id)}
-                    size={25}
-                    color="#FF1E00"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </TableContainer>
+      <div className="table">
+        <TableContainer>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Preço de custo</th>
+              <th>Preço de venda</th>
+              <th>Estoque</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => {
+              return (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>{BRL.format(product.costPrice)}</td>
+                  <td>{BRL.format(product.sellingPrice)}</td>
+                  <td>{product.stock}</td>
+                  <td className="icons">
+                    <PencilSimple
+                      onClick={() => handleEditProduct(product)}
+                      size={25}
+                      color="#222222"
+                    />
+                    <TrashSimple
+                      onClick={() => handleDeleteProduct(product.id)}
+                      size={25}
+                      color="#FF1E00"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </TableContainer>
+      </div>
+
       <ToastContainer />
     </Container>
   );

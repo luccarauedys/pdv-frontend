@@ -5,7 +5,7 @@ import { formatDate } from "../../utils/dateFormatter";
 export function SaleCard({ sale, handleDeleteSale }) {
   return (
     <Container>
-      <h3>Venda realizada em {formatDate(sale.date)}</h3>
+      <h3>Realizada em: {formatDate(sale.date)}</h3>
 
       {sale.products.map((product) => {
         return (
@@ -24,7 +24,7 @@ export function SaleCard({ sale, handleDeleteSale }) {
         );
       })}
 
-      <h3>Preço total da venda: {BRL.format(sale.totalPrice)}</h3>
+      <h3>TOTAL: {BRL.format(sale.totalPrice)}</h3>
 
       <div className="bottom">
         <button onClick={() => handleDeleteSale(sale.id)}>Deletar venda</button>
@@ -73,6 +73,7 @@ const Container = styled.div`
     button {
       width: 100%;
       padding: 0.8rem;
+      background-color: #f24636;
     }
   }
 `;

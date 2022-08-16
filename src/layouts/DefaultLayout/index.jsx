@@ -22,5 +22,10 @@ export const Container = styled.main`
     flex: 1;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+  }
+
+  @media (max-width: 800px) {
+    flex-direction: column;
   }
 `;

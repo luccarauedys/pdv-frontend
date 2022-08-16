@@ -4,17 +4,14 @@ const bgColor = "#222";
 const textColor = "#FFF";
 const bgColorHover = "#2127c6";
 
-export const Container = styled.div``;
-
 export const MenuIcon = styled.div`
-  height: 100%;
   padding: 1rem;
   background-color: ${bgColor};
   color: ${textColor};
 `;
 
 export const MenuContainer = styled.div`
-  height: 100%;
+  height: 100vh;
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -28,11 +25,12 @@ export const MenuContainer = styled.div`
 
   @media (max-width: 800px) {
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
+    z-index: 3;
   }
 `;
 

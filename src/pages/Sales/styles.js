@@ -3,24 +3,34 @@ import styled from "styled-components";
 export const Container = styled.div`
   flex: 1;
   padding: 2rem;
-
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
   h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
-  tbody {
-    td:last-child {
-      text-align: center;
+  .table {
+    width: 100%;
+    overflow-x: auto !important;
+
+    tbody {
+      td:last-child {
+        text-align: center;
+      }
+
+      button {
+        width: 100%;
+        max-width: 200px;
+        padding: 0.5rem;
+        background-color: #06093d;
+      }
     }
-    button {
-      padding: 0.5rem;
-      width: 40%;
-      background-color: #222;
-    }
+  }
+
+  @media (max-width: 500px) {
+    width: 400px;
   }
 `;
 

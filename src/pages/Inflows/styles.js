@@ -15,60 +15,56 @@ export const Container = styled.div`
 
 export const DatePickerContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.8rem;
 
-  div,
-  input,
-  button {
+  .button {
     flex: 1;
+    align-self: flex-end;
   }
 
-  input,
+  .clearFilterBtn {
+    filter: saturate(40%);
+  }
+
   button {
-    height: 40px;
-    padding: 0.5rem;
+    width: 100%;
   }
 
   label {
     margin-bottom: 0.5rem;
   }
 
-  div.button {
-    display: flex;
-    align-self: flex-end;
-  }
+  @media (max-width: 800px) {
+    flex-direction: column;
 
-  button {
-    width: 100%;
+    .button,
+    button {
+      width: 100%;
+    }
   }
 `;
 
 export const Header = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  h1 {
-    min-width: 300px;
-  }
 
   div {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
 
     p {
-      width: 300px;
-      padding: 0.5rem;
-      font-size: 1.2rem;
-      font-weight: 600;
+      color: #fff;
       text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
       border-radius: 0.2rem;
       background-color: #6fa13a;
-      color: #fff;
+
+      @media (max-width: 800px) {
+        font-size: 1rem;
+      }
     }
   }
 `;

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { Container } from "./styles";
 import { ProductForm } from "../../components/ProductForm";
 import { ProductsList } from "../../components/ProductsList";
 import { createProduct, getProducts } from "../../services/api";
@@ -39,36 +39,24 @@ export function Products() {
   }, []);
 
   return (
-    <>
-      <Container>
+    <Container>
+      <div>
         <h1>Cadastro de Produtos</h1>
         <ProductForm handleFormSubmit={registerProduct} />
+      </div>
 
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <ProductsList
-            products={products}
-            setProducts={setProducts}
-            allProducts={allProducts}
-            getAllProducts={getAllProducts}
-          />
-        )}
-      </Container>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <ProductsList
+          products={products}
+          setProducts={setProducts}
+          allProducts={allProducts}
+          getAllProducts={getAllProducts}
+        />
+      )}
+
       <ToastContainer />
-    </>
+    </Container>
   );
 }
-
-const Container = styled.div`
-  flex: 1;
-  padding: 2rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  h1 {
-    margin-bottom: 1rem;
-  }
-`;

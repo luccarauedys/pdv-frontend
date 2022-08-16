@@ -98,7 +98,9 @@ export function Inflows() {
         </div>
 
         <div className="button">
-          <button onClick={handleClearFilterByDate}>Resetar</button>
+          <button className="clearFilterBtn" onClick={handleClearFilterByDate}>
+            Resetar
+          </button>
         </div>
       </DatePickerContainer>
 

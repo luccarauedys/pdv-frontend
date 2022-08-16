@@ -163,28 +163,30 @@ export function Sales() {
       {isLoading && <Loading />}
 
       {!isLoading && products.length > 0 && (
-        <TableContainer>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Preço</th>
-              <th>Estoque</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{BRL.format(product.sellingPrice)}</td>
-                <td>{product.stock}</td>
-                <td>
-                  <button onClick={() => handleAddToCart(product)}>Adicionar</button>
-                </td>
+        <div className="table">
+          <TableContainer>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ação</th>
               </tr>
-            ))}
-          </tbody>
-        </TableContainer>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>{BRL.format(product.sellingPrice)}</td>
+                  <td>{product.stock}</td>
+                  <td>
+                    <button onClick={() => handleAddToCart(product)}>Adicionar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </TableContainer>
+        </div>
       )}
 
       {cart.length > 0 && (
@@ -233,6 +235,7 @@ export function Sales() {
           </Footer>
         </CartContainer>
       )}
+
       <ToastContainer />
     </Container>
   );

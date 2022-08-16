@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
 export const FormContainer = styled.form`
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1rem;
+  gap: 0.8rem;
+
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
 `;
 
 export const FormItem = styled.div`
@@ -15,8 +19,7 @@ export const FormItem = styled.div`
   button,
   input {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
+    padding: 0.8rem;
   }
 
   p.error {

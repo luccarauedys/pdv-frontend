@@ -12,11 +12,11 @@ export const GlobalStyle = createGlobalStyle`
   html,
   body {
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
   }
 
   body {
-    background-color: #e3e3e3; 
+    background-color: #e3e3e3;
     color: #222222;
   }
 
@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input, button {
+    padding: 0.8rem;
     border-radius: 0.2rem;
   }
 
@@ -68,7 +69,7 @@ export const GlobalStyle = createGlobalStyle`
   button {
     font-weight: 600;
     background-color: #2127c6;
-    
+
     &[disabled] {
       background-color: #a5a5a5;
       cursor: not-allowed;
