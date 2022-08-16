@@ -9,8 +9,8 @@ export function SaleCard({ sale, handleDeleteSale }) {
 
       {sale.products.map((product) => {
         return (
-          <div className="product-card">
-            <h4>⚫️ {product.name}</h4>
+          <div key={product.id} className="product-card">
+            <h4>📌 {product.name}</h4>
             <p>
               <strong>Quantidade:</strong> {product.quantity}
             </p>
@@ -40,8 +40,8 @@ const Container = styled.div`
   gap: 1.5rem;
   padding: 3rem;
   border-radius: 0.5rem;
-  background-color: #222;
-  color: #e3e3e3;
+  background-color: #d7d7d7;
+  color: #222;
 
   h3 {
     font-size: 1.3rem;
@@ -61,7 +61,7 @@ const Container = styled.div`
 
     strong {
       font-weight: 500;
-      color: #adbedd;
+      color: #33333390;
     }
   }
 

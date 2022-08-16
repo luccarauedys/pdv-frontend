@@ -5,9 +5,11 @@ import { BRL } from "../../utils/BRLformatter";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toasts";
 import { SaleCard } from "../../components/SaleCard";
+import { Loading } from "../../components/Loading";
 
 export function History() {
   const [history, setHistory] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const getHistory = async () => {
     try {
@@ -21,6 +23,8 @@ export function History() {
       setHistory(sales);
     } catch (error) {
       notifyError("Ocorreu um erro ao obter o histórico de vendas!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,20 +50,31 @@ export function History() {
 
   return (
     <Container>
-      <HeaderContainer>
-        <h1>Histórico de vendas</h1>
+      {isLoading ? (
+        <>
+          <HeaderContainer>
+            <h1>Histórico de vendas</h1>
+          </HeaderContainer>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <HeaderContainer>
+            <h1>Histórico de vendas</h1>
 
-        <div>
-          <p>Vendas realizadas: {history.length}</p>
-          <p>Total: {BRL.format(calcTotalPriceOfAllSales())}</p>
-        </div>
-      </HeaderContainer>
+            <div>
+              <p>Vendas realizadas: {history.length}</p>
+              <p>Total: {BRL.format(calcTotalPriceOfAllSales())}</p>
+            </div>
+          </HeaderContainer>
 
-      <CardsContainer>
-        {history.reverse().map((sale) => {
-          return <SaleCard key={sale.id} sale={sale} handleDeleteSale={handleDeleteSale} />;
-        })}
-      </CardsContainer>
+          <CardsContainer>
+            {history.reverse().map((sale) => {
+              return <SaleCard key={sale.id} sale={sale} handleDeleteSale={handleDeleteSale} />;
+            })}
+          </CardsContainer>
+        </>
+      )}
 
       <ToastContainer />
     </Container>

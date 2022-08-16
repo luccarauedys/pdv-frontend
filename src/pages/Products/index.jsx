@@ -5,10 +5,12 @@ import { ProductsList } from "../../components/ProductsList";
 import { createProduct, getProducts } from "../../services/api";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toasts";
+import { Loading } from "../../components/Loading";
 
 export function Products() {
   const [allProducts, setAllProducts] = React.useState([]);
   const [products, setProducts] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const getAllProducts = async () => {
     try {
@@ -17,6 +19,8 @@ export function Products() {
       setProducts(response.data);
     } catch (error) {
       return notifyError("Ops... Ocorreu um erro ao buscar a lista de produtos!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,12 +43,17 @@ export function Products() {
       <Container>
         <h1>Cadastro de Produtos</h1>
         <ProductForm handleFormSubmit={registerProduct} />
-        <ProductsList
-          products={products}
-          setProducts={setProducts}
-          allProducts={allProducts}
-          getAllProducts={getAllProducts}
-        />
+
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <ProductsList
+            products={products}
+            setProducts={setProducts}
+            allProducts={allProducts}
+            getAllProducts={getAllProducts}
+          />
+        )}
       </Container>
       <ToastContainer />
     </>

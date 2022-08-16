@@ -6,6 +6,7 @@ import { BRL } from "../../utils/BRLformatter";
 import { formatDate } from "../../utils/dateFormatter";
 import { ToastContainer } from "react-toastify";
 import { notifyError } from "../../utils/toasts";
+import { Loading } from "../../components/Loading";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
@@ -16,6 +17,7 @@ export function Inflows() {
   const [inflows, setInflows] = React.useState([]);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const getInflows = async () => {
     try {
@@ -23,22 +25,28 @@ export function Inflows() {
       setInflows(response.data);
     } catch (error) {
       const message = error.response.data || "Ocorreu um erro ao tentar buscar as entradas!";
-      return notifyError(message);
+      notifyError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleFilterByDate = async () => {
-    await getInflows();
+    setIsLoading(true);
+
+    const { data: allInflows } = await getSales();
 
     const start = new Date(startDate).getTime();
     const end = new Date(endDate).getTime();
 
-    const filtered = inflows.filter((inflow) => {
+    const filtered = allInflows.filter((inflow) => {
       const date = new Date(inflow.date).getTime();
       return date >= start && date <= end;
     });
 
     setInflows(filtered);
+
+    setIsLoading(false);
   };
 
   const handleClearFilterByDate = async () => {
@@ -94,24 +102,29 @@ export function Inflows() {
         </div>
       </DatePickerContainer>
 
-      <TableContainer>
-        <thead>
-          <tr>
-            <th>Tipo de entrada</th>
-            <th>Valor</th>
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          {inflows.map((sale) => (
-            <tr key={sale.id}>
-              <td>Venda</td>
-              <td>{BRL.format(sale.totalPrice)}</td>
-              <td>{formatDate(sale.date)}</td>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <TableContainer>
+          <thead>
+            <tr>
+              <th>Tipo de entrada</th>
+              <th>Valor</th>
+              <th>Data</th>
             </tr>
-          ))}
-        </tbody>
-      </TableContainer>
+          </thead>
+          <tbody>
+            {inflows.map((sale) => (
+              <tr key={sale.id}>
+                <td>Venda</td>
+                <td>{BRL.format(sale.totalPrice)}</td>
+                <td>{formatDate(sale.date)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </TableContainer>
+      )}
+
       <ToastContainer />
     </Container>
   );

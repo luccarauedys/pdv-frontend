@@ -7,24 +7,27 @@ import { TableContainer } from "../../components/ProductsList/styles";
 import { BRL } from "../../utils/BRLformatter";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifyInfo, notifySuccess } from "../../utils/toasts";
+import { Loading } from "../../components/Loading";
 
 export function Sales() {
   const [name, setName] = React.useState("");
   const [products, setProducts] = React.useState([]);
   const [cart, setCart] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
 
   const handleSearchProducts = async () => {
     if (name.length === 0) return;
-
+    setIsLoading(true);
     try {
       const response = await getProductsByName(name);
       setProducts(response.data);
 
-      if (response.data.length === 0)
-        return notifyInfo("Não há produtos registrados com esse nome!");
+      if (response.data.length === 0) notifyInfo("Não há produtos registrados com esse nome!");
     } catch (error) {
-      return notifyError("Erro interno no Servidor.");
+      notifyError("Erro interno no Servidor.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -157,7 +160,9 @@ export function Sales() {
         </SearchBar>
       </SearchBarContainer>
 
-      {products.length > 0 && (
+      {isLoading && <Loading />}
+
+      {!isLoading && products.length > 0 && (
         <TableContainer>
           <thead>
             <tr>

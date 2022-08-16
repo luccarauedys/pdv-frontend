@@ -20,7 +20,6 @@ export const Container = styled.main`
 
   div.outlet {
     flex: 1;
-
     max-width: 1200px;
     margin: 0 auto;
   }

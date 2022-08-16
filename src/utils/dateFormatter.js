@@ -1,4 +1,9 @@
+import format from "date-fns/format";
+
 export const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat("pt-BR").format(date);
+  const correctDate = new Date(dateString);
+  correctDate.setDate(correctDate.getDate() + 1);
+
+  const formattedDate = format(correctDate, "dd-MM-yyyy");
+  return formattedDate;
 };

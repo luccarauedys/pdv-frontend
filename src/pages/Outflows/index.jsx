@@ -5,7 +5,7 @@ import { BRL } from "../../utils/BRLformatter";
 import { formatDate } from "../../utils/dateFormatter";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toasts";
-import { HeaderContainer } from "../History/styles";
+import { Loading } from "../../components/Loading";
 import { DatePickerContainer } from "../Inflows/styles";
 import { TableContainer } from "../../components/ProductsList/styles";
 import { TrashSimple } from "phosphor-react";
@@ -25,30 +25,38 @@ export function Outflows() {
   const [expenses, setExpenses] = React.useState([]);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const getAllExpenses = async () => {
+    setIsLoading(true);
     try {
       const response = await getExpenses();
       setExpenses([...response.data]);
     } catch (error) {
       const message =
         error.response.data || "Ocorreu um erro ao tentar buscar as saídas de dinheiro!";
-      return notifyError(message);
+      notifyError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleFilterByDate = async () => {
-    await getAllExpenses();
+    setIsLoading(true);
+
+    const { data: allExpenses } = await getExpenses();
 
     const start = new Date(startDate).getTime();
     const end = new Date(endDate).getTime();
 
-    const filtered = expenses.filter((expense) => {
+    const filtered = allExpenses.filter((expense) => {
       const date = new Date(expense.date).getTime();
       return date >= start && date <= end;
     });
 
     setExpenses(filtered);
+
+    setIsLoading(false);
   };
 
   const handleClearFilterByDate = async () => {
@@ -172,32 +180,36 @@ export function Outflows() {
         </div>
       </DatePickerContainer>
 
-      <TableContainer>
-        <thead>
-          <tr>
-            <th>Descrição da saída</th>
-            <th>Valor</th>
-            <th>Data</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((expense) => (
-            <tr key={expense.id}>
-              <td>{expense.description}</td>
-              <td>{BRL.format(expense.value)}</td>
-              <td>{formatDate(expense.date)}</td>
-              <td>
-                <TrashSimple
-                  onClick={() => handleDeleteExpense(expense.id)}
-                  size={25}
-                  color="#AB1B1E"
-                />
-              </td>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <TableContainer>
+          <thead>
+            <tr>
+              <th>Descrição da saída</th>
+              <th>Valor</th>
+              <th>Data</th>
+              <th>Ação</th>
             </tr>
-          ))}
-        </tbody>
-      </TableContainer>
+          </thead>
+          <tbody>
+            {expenses.map((expense) => (
+              <tr key={expense.id}>
+                <td>{expense.description}</td>
+                <td>{BRL.format(expense.value)}</td>
+                <td>{formatDate(expense.date)}</td>
+                <td>
+                  <TrashSimple
+                    onClick={() => handleDeleteExpense(expense.id)}
+                    size={25}
+                    color="#AB1B1E"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </TableContainer>
+      )}
 
       <ToastContainer />
     </Container>

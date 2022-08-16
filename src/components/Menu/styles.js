@@ -7,14 +7,14 @@ const bgColorHover = "#2127c6";
 export const Container = styled.div``;
 
 export const MenuIcon = styled.div`
-  min-height: 100vh;
+  height: 100%;
   padding: 1rem;
   background-color: ${bgColor};
   color: ${textColor};
 `;
 
 export const MenuContainer = styled.div`
-  min-height: 100vh;
+  height: 100%;
   width: 400px;
   display: flex;
   flex-direction: column;
