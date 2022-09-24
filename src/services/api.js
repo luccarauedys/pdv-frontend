@@ -1,10 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://projeto-pdv.herokuapp.com/",
-  // headers: {
-  //   Authorization: `Bearer ${localStorage.getItem("token")}`,
-  // },
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 const getConfig = () => {
