@@ -36,6 +36,8 @@ export const FormContainer = styled.form`
   button {
     padding: 0.5rem;
     margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
     &:hover {
       filter: brightness(110%);
     }

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { ThreeDots } from "react-loader-spinner";
 import { Container, FormContainer } from "../SignIn/styles";
 import { signUp } from "../../services/api";
 import { ToastContainer } from "react-toastify";
@@ -25,6 +26,7 @@ const schema = yup
 
 export function SignUp() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -35,12 +37,15 @@ export function SignUp() {
   });
 
   const onSubmit = async (signUpData) => {
+    setIsLoading(true);
     delete signUpData.confirmPassword;
     try {
       await signUp(signUpData);
       navigate("/");
     } catch (error) {
       if (error.response.data) notifyError(error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,7 +83,15 @@ export function SignUp() {
           <input type="password" {...register("confirmPassword", { required: true })} />
           <p className="error">{errors.confirmPassword?.message}</p>
         </label>
-        <button>Cadastrar empresa</button>
+
+        <button>
+          {isLoading ? (
+            <ThreeDots height="20" width="45" radius="9" color="#c6c6c6" />
+          ) : (
+            "Cadastrar empresa"
+          )}
+        </button>
+
         <Link to="/">Já possui uma conta? Faça login!</Link>
       </FormContainer>
       <ToastContainer />

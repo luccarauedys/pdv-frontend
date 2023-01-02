@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { ThreeDots } from "react-loader-spinner";
 import { Container, FormContainer } from "./styles";
 import { signIn } from "../../services/api";
 import { ToastContainer } from "react-toastify";
@@ -17,6 +18,7 @@ const schema = yup
 
 export function SignIn() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -27,6 +29,7 @@ export function SignIn() {
   });
 
   const onSubmit = async (loginData) => {
+    setIsLoading(true);
     try {
       const response = await signIn(loginData);
       const { token } = response.data;
@@ -34,6 +37,8 @@ export function SignIn() {
       navigate("/home");
     } catch (error) {
       if (error.response.data) notifyError(error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,7 +66,9 @@ export function SignIn() {
           <input type="password" {...register("password", { required: true })} />
           <p className="error">{errors.password?.message}</p>
         </label>
-        <button>Logar</button>
+        <button>
+          {isLoading ? <ThreeDots height="20" width="45" radius="9" color="#c6c6c6" /> : "Logar"}
+        </button>
         <Link to="/signup">Não possui uma conta? Faça o cadastro!</Link>
       </FormContainer>
       <ToastContainer />
